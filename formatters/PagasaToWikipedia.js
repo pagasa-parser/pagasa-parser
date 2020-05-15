@@ -35,7 +35,8 @@ const DATA_DIRECTORY = path.resolve(path.join(__dirname, "..", "data"));
 
 class PagasaToWikipedia {
 
-    constructor() {
+    constructor(axiosOptions) {
+        this.axiosOptions = axiosOptions;
         this.regions = require(path.join(DATA_DIRECTORY, "wp-regions.json"));
         this.municipalitiesTransumte = {
             "Albuena": "Albuera",
@@ -56,7 +57,15 @@ class PagasaToWikipedia {
     async getParsedWarningSignalsTemplate() {
         var template = (await this.getWarningSignalsTemplate());
 
-        var parse = (await axios.get("https://en.wikipedia.org/w/api.php", {
+        var parse = (await axios.get("https://en.wikipedia.org/w/api.php", typeof axiosOptions === "object" ? Object.assign({
+			params: {
+                action: "parse",
+                format: "json",
+                text: `${template.template}`,
+                contentmodel: "wikitext"
+            },
+            responseType: "json"
+        }, axiosOptions) : {
 			params: {
                 action: "parse",
                 format: "json",
@@ -80,7 +89,7 @@ class PagasaToWikipedia {
     
     async getWarningSignalsTemplate(bulletin) {
         if (bulletin === undefined)
-            bulletin = await (new PagasaScraper()).pullBulletin();
+            bulletin = await (new PagasaScraper(this.axiosOptions)).pullBulletin();
         else if (typeof bulletin === "string")
             bulletin = JSON.parse(bulletin);
 
@@ -95,7 +104,18 @@ class PagasaToWikipedia {
     }
 
     async _downloadWikipediaProvinces() {
-        var provincesGet = await axios.get("https://en.wikipedia.org/w/api.php", {
+        var provincesGet = await axios.get("https://en.wikipedia.org/w/api.php", typeof axiosOptions === "object" ? Object.assign({
+            params: {
+                action: "query",
+                format: "json",
+                list: "categorymembers",
+                cmpageid: "722637", // Category:Provinces of the Philippines
+                cmprop: "title",
+                cmnamespace: "0",
+                cmlimit: "max"
+            },
+            responseType: "json"
+        }, axiosOptions) : {
             params: {
                 action: "query",
                 format: "json",

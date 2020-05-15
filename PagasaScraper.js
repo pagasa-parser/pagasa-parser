@@ -31,8 +31,12 @@ const axios = require("axios");
 
 class PagasaScraper {
     
+    constructor(axiosOptions) {
+        this.axiosOptions = axiosOptions;
+    }
+    
     async pullBulletin() {
-        var page = await axios.get("http://bagong.pagasa.dost.gov.ph/tropical-cyclone/severe-weather-bulletin/2");
+        var page = await axios.get("http://bagong.pagasa.dost.gov.ph/tropical-cyclone/severe-weather-bulletin/2", axiosOptions);
         this.$ = cheerio.load(page.data);
 
         return this._parseBulletin();
