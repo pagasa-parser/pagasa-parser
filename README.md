@@ -1,4 +1,7 @@
 # PAGASA Parser
+[![npm version](https://img.shields.io/npm/v/pagasa-parser.svg?style=flat-square)](https://www.npmjs.org/package/pagasa-parser)
+[![npm downloads](https://img.shields.io/npm/dm/pagasa-parser.svg?style=flat-square)](http://npm-stat.com/charts.html?package=pagasa-parser)
+
 The **PAGASA Parser** is a Node.js library that parses information from PAGASA's Severe Weather Bulletin (SWB) page and turns it into various formats.
 
 ## Warning
@@ -48,8 +51,8 @@ const { PagasaScraper, PagasaToWikipedia } = require("pagasa-parser");
 
 ## Parts
 * **PagasaParser** - the main file. From here, you can extract PAGASA Parser's classes.
-* **PagasaScraper**:*pullBulletin()* - the primary web scraper, which processes [PAGASA's SWB page](http://bagong.pagasa.dost.gov.ph/tropical-cyclone/severe-weather-bulletin/2) into a usable JSON format.
-* **PagasaToWikipedia**:*`getWarningSignalsTemplate()* - parses the JSON format of the SWB and creates a [Template:TyphoonWarningsTable](https://en.wikipedia.org/wiki/Template:TyphoonWarningsTable) from the storm signals.
+* **PagasaScraper**:*`pullBulletin()`* - the primary web scraper, which processes [PAGASA's SWB page](http://bagong.pagasa.dost.gov.ph/tropical-cyclone/severe-weather-bulletin/2) into a usable JSON format.
+* **PagasaToWikipedia**:*`getWarningSignalsTemplate()`* - parses the JSON format of the SWB and creates a [Template:TyphoonWarningsTable](https://en.wikipedia.org/wiki/Template:TyphoonWarningsTable) from the storm signals.
 
 ## Demonstration
-A live demonstration of `PagasaScraper` can be seen at [https://wiki.chlod.net/tools/pagasa-bulletin-json].
+A live demonstration of `PagasaScraper` can be seen at [https://wiki.chlod.net/tools/pagasa-bulletin-json](https://wiki.chlod.net/tools/pagasa-bulletin-json).
