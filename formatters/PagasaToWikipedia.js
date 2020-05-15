@@ -197,7 +197,7 @@ class PagasaToWikipedia {
                     .replace(/(?:(east|north|south|west)+ern)\s/g, "");
                 
                 if (this.municipalitiesTransumte[municipality] !== undefined)
-                    m = this.municipalitiesTransumte["municipality"];
+                    m = this.municipalitiesTransumte[municipality];
                 
                 return `[[${m}, ${v.province}|${municipality}]]`
             });
