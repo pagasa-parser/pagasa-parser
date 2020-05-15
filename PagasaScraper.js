@@ -98,7 +98,7 @@ class PagasaScraper {
     }
 
     _extractIslands(areas) {
-        var extractionRegex = /\b((?:[\xF1\w\s]+|\s)+\sIslands)?\b/gi;
+        var extractionRegex = /\b((?:[\xF1\w\s]+|\s)+\sIslands?)\b/gi;
         
         let match;
         var matchList = [];
@@ -205,11 +205,15 @@ class PagasaScraper {
             areas = mainlands["new"];
             mainlands = mainlands["list"];
 
+            var islands = this._extractIslands(areas);
+            areas = islands["new"];
+            islands = islands["list"];
+
             var wholes = this._extractWholes(areas);
             areas = wholes["new"];
             wholes = wholes["list"];
 
-            finalAffectedAreas[i] = [...wholes, ...mainlands, ...rests, ...sections];
+            finalAffectedAreas[i] = [...wholes, ...mainlands, ...islands, ...rests, ...sections];
             finalAffectedAreas[i] = finalAffectedAreas[i].filter((e) => {
                 return e.province !== "and"
             });

@@ -39,7 +39,10 @@ class PagasaToWikipedia {
         this.regions = require(path.join(DATA_DIRECTORY, "wp-regions.json"));
         this.municipalitiesTransumte = {
             "Albuena": "Albuera",
-            "San Jose Del Monte": "San Jose del Monte"
+            "San Jose Del Monte": "San Jose del Monte",
+            "Dinapugue": "Dinapigue",
+            "Macallelon": "Macalelon",
+            "Tagkayawan": "Tagkawayan"
         };
     }
 
@@ -48,6 +51,31 @@ class PagasaToWikipedia {
             this.issues = [];
         
         this.issues.push(issueDetails);
+    }
+
+    async getParsedWarningSignalsTemplate() {
+        var template = (await this.getWarningSignalsTemplate());
+
+        var parse = (await axios.get("https://en.wikipedia.org/w/api.php", {
+			params: {
+                action: "parse",
+                format: "json",
+                text: `${template.template}`,
+                contentmodel: "wikitext"
+            },
+            responseType: "json"
+        })).data;
+        
+        if (parse["parse"] === undefined
+            || parse["parse"]["text"] === undefined
+            || parse["parse"]["text"]["*"] === undefined) {
+            throw new Error("Response from Wikipedia cannot be processed.", new Error(parse));
+        }
+
+		return {
+            template: template,
+            parsed: parse["parse"]["text"]["*"]
+        };
     }
     
     async getWarningSignalsTemplate(bulletin) {
@@ -88,11 +116,11 @@ class PagasaToWikipedia {
 
     _generateTemplate(signals) {
         return `{{TyphoonWarningsTable\n`
-        + `| PH5 = ${signals[5].trim()}\n`
-        + `| PH4 = ${signals[4].trim()}\n`
-        + `| PH3 = ${signals[3].trim()}\n`
-        + `| PH2 = ${signals[2].trim()}\n`
-        + `| PH1 = ${signals[1].trim()}\n`
+        + `| PH5 = ${signals["5"].trim()}\n`
+        + `| PH4 = ${signals["4"].trim()}\n`
+        + `| PH3 = ${signals["3"].trim()}\n`
+        + `| PH2 = ${signals["2"].trim()}\n`
+        + `| PH1 = ${signals["1"].trim()}\n`
         + `| source = [http://bagong.pagasa.dost.gov.ph/tropical-cyclone/severe-weather-bulletin/2 PAGASA]\n`
         + `}}`;
     }
@@ -104,13 +132,13 @@ class PagasaToWikipedia {
             signalsWikitext[signal] = "";
             var tcwsRegions = parsedTCWS[`${signal}`];
 
-            if (tcwsRegions === null || tcwsRegions === undefined)
+            if (!tcwsRegions)
                 continue;
 
             signalsWikitext[signal] += "\n";
 
             if (tcwsRegions["_"] !== undefined) {
-                signalsWikitext[signal] += this._getRegionsWikitext(null, tcwsRegions["_"]);
+                signalsWikitext[signal] += this._getRegionsWikitext(undefined, tcwsRegions["_"]);
                 tcwsRegions["_"] = undefined;
             }
 
@@ -132,14 +160,15 @@ class PagasaToWikipedia {
         out += this._getRegionHeader(region);
 
         areas.forEach((v, i) => {
-            out += this._getProvinceAsBullet(v, region === null || region === undefined ? "*" : "**");
+            out += this._getProvinceAsBullet(v, region ? "**" : "*");
         });
+
         return out;
     }
 
     _getRegionHeader(region) {
-        return (region === null || region === undefined) ? "\n" : (`* '''[[${region.page ? `${region.page}|` : ""}${region.name}]]''' `
-        + (region.designation !== undefined ? `{{small|(${region.designation})}}\n` : "\n"));
+        return region ? (`* '''[[${region.page ? `${region.page}|` : ""}${region.name}]]''' `
+        + (region.designation !== undefined ? `{{small|(${region.designation})}}\n` : "\n")) : "\n";
     }
 
     _getProvinceAsBullet(v, bulletString = "**") {
@@ -148,7 +177,7 @@ class PagasaToWikipedia {
 
         if (!this.provinces.includes(provincePage)
             && v.province !== "Metro Manila"
-            && !/Islands?$/g.test(v.province)) {
+            && !(/Islands?$/g.test(v.province))) {
             provincePage += " (province)";
             
             if (!this.provinces.includes(provincePage)) {
@@ -160,9 +189,9 @@ class PagasaToWikipedia {
             }
         }
 
-        var provinceLink = provincePage !== undefined ?
-            (provincePage === v.province ? `[[${v.province}]]` : `[[${provincePage}|${v.province}]]`)
-                : `${v.province}`;
+        var provinceLink = !provincePage ? `${v.province}` :
+            (provincePage === v.province ? 
+                `[[${v.province}]]` : `[[${provincePage}|${v.province}]]`);
 
         if (!v.part) {
             line += `${bulletString} ${provinceLink}\n`;
@@ -213,11 +242,11 @@ class PagasaToWikipedia {
         var signals = bulletin["storm_signals"];
 
         var reorganized = {
-            1: signals["1"] !== null ? this._landmassesToRegions(signals["1"]["affected_areas"]) : null,
-            2: signals["2"] !== null ? this._landmassesToRegions(signals["2"]["affected_areas"]) : null,
-            3: signals["3"] !== null ? this._landmassesToRegions(signals["3"]["affected_areas"]) : null,
-            4: signals["4"] !== null ? this._landmassesToRegions(signals["4"]["affected_areas"]) : null,
-            5: signals["5"] !== null ? this._landmassesToRegions(signals["5"]["affected_areas"]) : null 
+            "1": signals["1"] ? this._landmassesToRegions(signals["1"]["affected_areas"]) : null,
+            "2": signals["2"] ? this._landmassesToRegions(signals["2"]["affected_areas"]) : null,
+            "3": signals["3"] ? this._landmassesToRegions(signals["3"]["affected_areas"]) : null,
+            "4": signals["4"] ? this._landmassesToRegions(signals["4"]["affected_areas"]) : null,
+            "5": signals["5"] ? this._landmassesToRegions(signals["5"]["affected_areas"]) : null 
         };
 
         return reorganized;
@@ -247,11 +276,12 @@ class PagasaToWikipedia {
                 }
             });
 
-            if (!regionFound && !/Islands?$/.test(entry.province)) {
-                this._issue({
-                    message: "Region for " + entry.province + " not found.",
-                    entry: entry
-                });
+            if (!regionFound) {
+                if (!/Islands?$/.test(entry.province))
+                    this._issue({
+                        message: "Region for " + entry.province + " not found.",
+                        entry: entry
+                    });
 
                 if (byRegion["_"] === undefined)
                     byRegion["_"] = [];

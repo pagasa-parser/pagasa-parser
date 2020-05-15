@@ -6,3 +6,5 @@ node_modules/
 # this is to force your installation to use the latest
 # version of the page
 wp-provinces.json
+
+test.*
