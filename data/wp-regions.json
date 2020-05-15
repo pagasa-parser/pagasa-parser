@@ -1,0 +1,204 @@
+[
+    {
+        "name": "National Capital Region",
+        "designation": "NCR",
+        "psgc" : "13",
+        "provinces": [
+            "Metro Manila"
+        ]
+    },
+    {
+        "name": "Cordillera Administrative Region",
+        "designation": "CAR",
+        "psgc" : "14",
+        "provinces": [
+            "Abra",
+            "Apayao",
+            "Benguet",
+            "Ifugao",
+            "Kalinga",
+            "Mountain Province"
+        ]
+    },
+    {
+        "name": "Ilocos Region",
+        "designation": "Region I",
+        "psgc" : "01",
+        "provinces": [
+            "Ilocos Norte",
+            "Ilocos Sur",
+            "La Union",
+            "Pangasinan"
+        ]
+    },
+    {
+        "name": "Cagayan Valley",
+        "designation": "Region II",
+        "psgc" : "02",
+        "provinces": [
+            "Batanes",
+            "Cagayan",
+            "Isabela",
+            "Nueva Vizcaya",
+            "Quirino"
+        ]
+    },
+    {
+        "name": "Central Luzon",
+        "designation": "Region III",
+        "psgc" : "03",
+        "provinces": [
+            "Aurora",
+            "Bataan",
+            "Bulacan",
+            "Nueva Ecija",
+            "Pampanga",
+            "Tarlac",
+            "Zambales"
+        ]
+    },
+    {
+        "name": "Calabarzon",
+        "designation": "Region IV-A",
+        "psgc" : "04",
+        "provinces": [
+            "Batangas",
+            "Cavite",
+            "Laguna",
+            "Quezon",
+            "Rizal"
+        ]
+    },
+    {
+        "name": "Southwestern Tagalog Region",
+        "page": "Mimaropa",
+        "designation": "Mimaropa",
+        "psgc" : "17",
+        "provinces": [
+            "Marinduque",
+            "Occidental Mindoro",
+            "Oriental Mindoro",
+            "Palawan",
+            "Romblon"
+        ]
+    },
+    {
+        "name": "Bicol Region",
+        "designation": "Region V",
+        "psgc" : "05",
+        "provinces": [
+            "Albay",
+            "Camarines Norte",
+            "Camarines Sur",
+            "Catanduanes",
+            "Masbate",
+            "Sorsogon"
+        ]
+    },
+    {
+        "name": "Western Visayas",
+        "designation": "Region VI",
+        "psgc" : "06",
+        "provinces": [
+            "Aklan",
+            "Antique",
+            "Capiz",
+            "Guimaras",
+            "Iloilo",
+            "Negros Occidental"
+        ]
+    },
+    {
+        "name": "Central Visayas",
+        "designation": "Region VII",
+        "psgc" : "07",
+        "provinces": [
+            "Bohol",
+            "Cebu",
+            "Negros Oriental",
+            "Siquijor"
+        ]
+    },
+    {
+        "name": "Eastern Visayas",
+        "designation": "Region VIII",
+        "psgc" : "08",
+        "provinces": [
+            "Biliran",
+            "Eastern Samar",
+            "Leyte",
+            "Northern Samar",
+            "Samar",
+            "Southern Leyte"
+        ]
+    },
+    {
+        "name": "Zamboanga Peninsula",
+        "designation": "Region IX",
+        "psgc" : "09",
+        "provinces": [
+            "Zamboanga del Norte",
+            "Zamboanga del Sur",
+            "Zamboanga Sibugay"
+        ]
+    },
+    {
+        "name": "Northern Mindanao",
+        "designation": "Region X",
+        "psgc" : "10",
+        "provinces": [
+            "Bukidnon",
+            "Camiguin",
+            "Lanao del Norte",
+            "Misamis Occidental",
+            "Misamis Oriental"
+        ]
+    },
+    {
+        "name": "Davao Region",
+        "designation": "Region XI",
+        "psgc" : "11",
+        "provinces": [
+            "Davao de Oro",
+            "Davao del Norte",
+            "Davao del Sur",
+            "Davao Oriental",
+            "Davao Occidental"
+        ]
+    },
+    {
+        "name": "Soccsksargen",
+        "designation": "Region XII",
+        "psgc" : "12",
+        "provinces": [
+            "Cotabato",
+            "Sarangani",
+            "South Cotabato",
+            "Sultan Kudarat"
+        ]
+    },
+    {
+        "name": "Caraga Region",
+        "designation": "Region XIII",
+        "psgc" : "16",
+        "provinces": [
+            "Agusan del Norte",
+            "Agusan del Sur",
+            "Dinagat Islands",
+            "Surigao del Norte",
+            "Surigao del Sur"
+        ]
+    },
+    {
+        "name": "Bangsamoro Autonomous Region in Muslim Mindanao",
+        "designation": "BARMM",
+        "psgc" : "15",
+        "provinces": [
+            "Basilan",
+            "Lanao del Sur",
+            "Maguindanao",
+            "Sulu",
+            "Tawi-Tawi"
+        ]
+    }
+]
