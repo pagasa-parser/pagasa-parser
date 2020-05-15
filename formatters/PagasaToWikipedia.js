@@ -180,11 +180,11 @@ class PagasaToWikipedia {
                     break;
                 }
                 case "rest": {
-                    line += `${bulletString} the rest of ${provinceLink}\n`;
+                    line += `${bulletString} rest of ${provinceLink}\n`;
                     break;
                 }
                 default: {
-                    line += `${bulletString} the ${v.includes.part} ${v.includes.term} of ${provinceLink}`;
+                    line += `${bulletString} ${v.includes.part} ${v.includes.term} of ${provinceLink}`;
                     line += this._linkMunicipalities(v);
                     line += "\n";
     
