@@ -1,6 +1,6 @@
 {
   "name": "pagasa-parser",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Node.js application that parses information from PAGASA's Severe Weather Bulletin page and turns it into various formats.",
   "main": "PagasaParser.js",
   "dependencies": {
