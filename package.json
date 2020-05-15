@@ -1,0 +1,30 @@
+{
+  "name": "pagasa-parser",
+  "version": "1.0.0",
+  "description": "A Node.js application that parses information from PAGASA's Severe Weather Bulletin page and turns it into various formats.",
+  "main": "PagasaParser.js",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "cheerio": "^1.0.0-rc.3",
+    "fs-jetpack": "^2.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChlodAlejandro/PAGASA-parser.git"
+  },
+  "keywords": [
+    "scraper",
+    "weather",
+    "json",
+    "philippines",
+    "typhoon"
+  ],
+  "author": "Chlod Alejandro <chlod@chlod.net> (https://chlod.net)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/ChlodAlejandro/PAGASA-parser/issues"
+  },
+  "homepage": "https://github.com/ChlodAlejandro/PAGASA-parser#readme"
+}
