@@ -36,9 +36,10 @@ const DATA_DIRECTORY = path.resolve(path.join(__dirname, "..", "data"));
 class PagasaToWikipedia {
 
     constructor() {
-        this.regions = require(path.join(DATA_DIRECTORY, "ph-regions.json"));
+        this.regions = require(path.join(DATA_DIRECTORY, "wp-regions.json"));
         this.municipalitiesTransumte = {
-            "Albuena": "Albuera"
+            "Albuena": "Albuera",
+            "San Jose Del Monte": "San Jose del Monte"
         };
     }
 
@@ -137,7 +138,7 @@ class PagasaToWikipedia {
     }
 
     _getRegionHeader(region) {
-        return (region === null || region === undefined) ? "\n" : (`* '''[[${region.name}]]''' `
+        return (region === null || region === undefined) ? "\n" : (`* '''[[${region.page ? `${region.page}|` : ""}${region.name}]]''' `
         + (region.designation !== undefined ? `{{small|(${region.designation})}}\n` : "\n"));
     }
 
@@ -145,12 +146,12 @@ class PagasaToWikipedia {
         var line = "";
         var provincePage = v.province;
 
-        if (!this.provinces.includes(v.province)
+        if (!this.provinces.includes(provincePage)
             && v.province !== "Metro Manila"
             && !/Islands?$/g.test(v.province)) {
             provincePage += " (province)";
             
-            if (!this.provinces.includes(v.province)) {
+            if (!this.provinces.includes(provincePage)) {
                 this._issue({
                     message: "Page not found for province: " + v.province,
                     province: v.province
@@ -160,7 +161,8 @@ class PagasaToWikipedia {
         }
 
         var provinceLink = provincePage !== undefined ?
-            `[[${provincePage}|${v.province}]]` : `${v.province}`;
+            (provincePage === v.province ? `[[${v.province}]]` : `[[${provincePage}|${v.province}]]`)
+                : `${v.province}`;
 
         if (!v.part) {
             line += `${bulletString} ${provinceLink}\n`;
