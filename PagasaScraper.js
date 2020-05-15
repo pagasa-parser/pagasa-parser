@@ -36,7 +36,7 @@ class PagasaScraper {
     }
     
     async pullBulletin() {
-        var page = await axios.get("http://bagong.pagasa.dost.gov.ph/tropical-cyclone/severe-weather-bulletin/2", axiosOptions);
+        var page = await axios.get("http://bagong.pagasa.dost.gov.ph/tropical-cyclone/severe-weather-bulletin/2", this.axiosOptions);
         this.$ = cheerio.load(page.data);
 
         return this._parseBulletin();
@@ -102,7 +102,7 @@ class PagasaScraper {
     }
 
     _extractIslands(areas) {
-        var extractionRegex = /\b((?:[\xF1\w\s]+|\s)+\sIslands?)\b/gi;
+        var extractionRegex = /\b((?:[\xF1\w]+)+\sIslands?)\b/gi;
         
         let match;
         var matchList = [];
@@ -219,7 +219,7 @@ class PagasaScraper {
 
             finalAffectedAreas[i] = [...wholes, ...mainlands, ...islands, ...rests, ...sections];
             finalAffectedAreas[i] = finalAffectedAreas[i].filter((e) => {
-                return e.province !== "and"
+                return e.province !== "and";
             });
 
             if (/[^,.\- ]/gi.test(areas)) {
@@ -234,7 +234,7 @@ class PagasaScraper {
 
     _parseTCWSRows(rawRows) {
         var finalRows = {};
-        Object.assign(finalRows, rawRows)
+        Object.assign(finalRows, rawRows);
 
         Object.entries(finalRows).forEach(([i, e]) => {
             var e = this.$(finalRows[i]);

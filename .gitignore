@@ -8,3 +8,6 @@ node_modules/
 wp-provinces.json
 
 test.*
+
+# no
+.vscode
