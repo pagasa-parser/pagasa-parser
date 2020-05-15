@@ -69,30 +69,22 @@ class PagasaToWikipedia {
     }
 
     async _downloadWikipediaProvinces() {
-        const PROVINCES_FILE = path.join(DATA_DIRECTORY, "wp-provinces.json");
+        var provincesGet = await axios.get("https://en.wikipedia.org/w/api.php", {
+            params: {
+                action: "query",
+                format: "json",
+                list: "categorymembers",
+                cmpageid: "722637", // Category:Provinces of the Philippines
+                cmprop: "title",
+                cmnamespace: "0",
+                cmlimit: "max"
+            },
+            responseType: "json"
+        });
 
-        if (fs.exists(PROVINCES_FILE)) {
-            this.provinces = fs.read(PROVINCES_FILE, "json");
-        } else {
-            var provincesGet = await axios.get("https://en.wikipedia.org/w/api.php", {
-                params: {
-                    action: "query",
-                    format: "json",
-                    list: "categorymembers",
-                    cmpageid: "722637", // Category:Provinces of the Philippines
-                    cmprop: "title",
-                    cmnamespace: "0",
-                    cmlimit: "max"
-                },
-                responseType: "json"
-            });
-    
-            this.provinces = [];
-            for (var page of provincesGet.data["query"]["categorymembers"]) {
-                this.provinces.push(page["title"]);
-            }
-
-            fs.write(PROVINCES_FILE, JSON.stringify(this.provinces))
+        this.provinces = [];
+        for (var page of provincesGet.data["query"]["categorymembers"]) {
+            this.provinces.push(page["title"]);
         }
     }
 
