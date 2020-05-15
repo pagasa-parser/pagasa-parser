@@ -43,7 +43,7 @@ class PagasaScraper {
     }
 
     _extractSections(areas) {
-        var extractionRegex = /(?:the\s)?((?:extreme\s)?(?:[a-z]+(?:\sand\s[a-z]+)?)\s([a-z]+))(?:\sof)?(?:\smainland)?\s((?:[\xF1\w]+|\s)+?)\s?\((.+?)\)/gi;
+        var extractionRegex = /(?:the\s)?((?:extreme\s)?[a-z]+(?:\sand\s[a-z]+)?)\s([a-z]+)(?:\sof)?(?:\smainland)?\s((?:[\xF1\w]+|\s)+?)\s?\((.+?)\)/gi;
         
         let match;
         var matchList = [];
