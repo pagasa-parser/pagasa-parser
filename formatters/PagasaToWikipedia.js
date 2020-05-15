@@ -27,22 +27,19 @@
  **/
 
 const axios = require("axios");
-const fs = require("fs-jetpack");
 const path = require("path");
 
 const PagasaScraper = require("../PagasaScraper");
 
 const DATA_DIRECTORY = path.resolve(path.join(__dirname, "..", "data"));
 
-const municipalitiesTransumte = {
-    "Albuena": "Albuera"
-};
-
 class PagasaToWikipedia {
 
     constructor() {
-        this.linkCache = [];
         this.regions = require(path.join(DATA_DIRECTORY, "ph-regions.json"));
+        this.municipalitiesTransumte = {
+            "Albuena": "Albuera"
+        };
     }
 
     _issue(issueDetails) {
@@ -90,11 +87,11 @@ class PagasaToWikipedia {
 
     _generateTemplate(signals) {
         return `{{TyphoonWarningsTable\n`
-        + `| PH5 = \n${signals[5].trim()}\n`
-        + `| PH4 = \n${signals[4].trim()}\n`
-        + `| PH3 = \n${signals[3].trim()}\n`
-        + `| PH2 = \n${signals[2].trim()}\n`
-        + `| PH1 = \n${signals[1].trim()}\n`
+        + `| PH5 = ${signals[5].trim()}\n`
+        + `| PH4 = ${signals[4].trim()}\n`
+        + `| PH3 = ${signals[3].trim()}\n`
+        + `| PH2 = ${signals[2].trim()}\n`
+        + `| PH1 = ${signals[1].trim()}\n`
         + `| source = [http://bagong.pagasa.dost.gov.ph/tropical-cyclone/severe-weather-bulletin/2 PAGASA]\n`
         + `}}`;
     }
@@ -108,6 +105,8 @@ class PagasaToWikipedia {
 
             if (tcwsRegions === null || tcwsRegions === undefined)
                 continue;
+
+            signalsWikitext[signal] += "\n";
 
             if (tcwsRegions["_"] !== undefined) {
                 signalsWikitext[signal] += this._getRegionsWikitext(null, tcwsRegions["_"]);
@@ -197,8 +196,8 @@ class PagasaToWikipedia {
                     .replace(/Sto./g, "Santo")
                     .replace(/(?:(east|north|south|west)+ern)\s/g, "");
                 
-                if (municipalitiesTransumte[municipality] !== undefined)
-                    m = municipalitiesTransumte["municipality"];
+                if (this.municipalitiesTransumte[municipality] !== undefined)
+                    m = this.municipalitiesTransumte["municipality"];
                 
                 return `[[${m}, ${v.province}|${municipality}]]`
             });
