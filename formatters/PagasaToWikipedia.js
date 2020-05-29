@@ -92,6 +92,14 @@ class PagasaToWikipedia {
             bulletin = await (new PagasaScraper(this.axiosOptions)).pullBulletin();
         else if (typeof bulletin === "string")
             bulletin = JSON.parse(bulletin);
+        
+        if (bulletin["typhoon"] === null)
+            return {
+                issues: [
+                    "There is no active typhoon bulletin."
+                ],
+                template: "''No active typhoon warning signals.''"
+            };
 
         await this._downloadWikipediaProvinces();
         

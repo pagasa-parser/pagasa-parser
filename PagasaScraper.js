@@ -37,6 +37,20 @@ class PagasaScraper {
     
     async pullBulletin() {
         var page = await axios.get("http://bagong.pagasa.dost.gov.ph/tropical-cyclone/severe-weather-bulletin/2", this.axiosOptions);
+        
+        if (page.data.includes("No Active Tropical Cyclone within the Philippine Area of Responsibility"))
+            return {
+                typhoon: null,
+                bulletin: null,
+                storm_signals: {
+                    1: {},
+                    2: {},
+                    3: {},
+                    4: {},
+                    5: {},
+                }
+            };
+        
         this.$ = cheerio.load(page.data);
 
         return this._parseBulletin();
@@ -320,6 +334,8 @@ class PagasaScraper {
     }
 
     _parseBulletin() {
+        
+        
         var typhoonDetails = this._extractTyphoonDetails();
         var final = {
             typhoon: typhoonDetails,
