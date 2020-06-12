@@ -107,7 +107,7 @@ class PagasaToWikipedia {
 
         return {
             issues: this.issues ? this.issues : false,
-            template: this._generateTemplate(this._toWikitext(parsedTCWS))
+            template: this._generateTemplate(bulletin, this._toWikitext(parsedTCWS))
         };
     }
 
@@ -142,8 +142,18 @@ class PagasaToWikipedia {
         }
     }
 
-    _generateTemplate(signals) {
+    _generateTemplate(bulletin, signals) {
+        var utcTime = new Date(bulletin["bulletin"]["issued_timestamp"]);
+        var localTime = new Date(bulletin["bulletin"]["issued_timestamp"]);
+        localTime.setHours(localTime.getHours() + 8)
+        
+        var uH = ("0" + utcTime.getHours()).slice(-2);
+        var uM = ("0" + utcTime.getMinutes()).slice(-2);
+        var lH = ("0" + localTime.getHours()).slice(-2);
+        var lM = ("0" + localTime.getMinutes()).slice(-2);
+        
         return `{{TyphoonWarningsTable\n`
+        + `| PHtime = ${uH}:${uM} UTC (${lH}:${lM} [[Philippine Standard Time|PHT]])\n`
         + `| PH5 = ${signals["5"].trim()}\n`
         + `| PH4 = ${signals["4"].trim()}\n`
         + `| PH3 = ${signals["3"].trim()}\n`

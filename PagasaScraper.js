@@ -316,15 +316,11 @@ class PagasaScraper {
     }
 
     _extractBulletinDetails(typhoonDetails) {
-        // date trickery
-        var oldTZ = process.env.TZ;
-        process.env.TZ = 'Asia/Manila';
-
         var issued = new Date(Date.parse(/Issued at .+/gi.exec(this.$(":contains('Issued at')").filter((i, e) => {
             return /Issued at [0-9]+:[0-9]+\s?[apm]+,?\s?[0-9]+\s[a-z]+\s[0-9]+/gi.test(this.$(e).text());
         }).text())));
-
-        process.env.TZ = oldTZ;
+        
+        issued.setHours(issued.getHours() - 8);
         
         return {
             issued_timestamp: issued.getTime(),

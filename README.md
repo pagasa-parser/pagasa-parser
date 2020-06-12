@@ -7,6 +7,8 @@ The **PAGASA Parser** is a Node.js library that parses information from PAGASA's
 ## Warning
 Please avoid misusing the library in a way that may cause the servers of PAGASA to be under load. Respect the usual web crawling guidelines. The contributors of PAGASA Parser are not liable for any damage caused as an effect of the usage of this library. (see license)
 
+Additionally, this scraper is in no way a very good one. This scraper is unable to automatically fix typos on the PAGASA. This requires manual correction.
+
 ## Usage
 
 To use the library, require `pagasa-parser` into your script.
