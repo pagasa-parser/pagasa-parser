@@ -291,7 +291,11 @@ class PagasaToWikipedia {
     }
 
     _landmassesToRegions(landmasses) {
-        var mixed = [...landmasses["luzon"], ...landmasses["visayas"], ...landmasses["mindanao"]];
+        var mixed = [
+            ...(landmasses["luzon"] == null ? [] : landmasses["luzon"]),
+            ...(landmasses["visayas"] == null ? [] : landmasses["visayas"]),
+            ...(landmasses["mindanao"] == null ? [] : landmasses["mindanao"])
+        ];
 
         if (landmasses["extras"] !== undefined && Object.keys(landmasses["extras"]) > 0) {
             this._issue({
