@@ -57,7 +57,7 @@ class PagasaScraper {
     }
 
     _extractSections(areas) {
-        var extractionRegex = /(?:the\s)?((?:extreme\s)?[a-z]+(?:\sand\s[a-z]+)?)\s((?:[a-z]+tion)+)(?:\sof)?(?:\smainland)?\s((?:[\xF1\w]+|\s)+?)\s?\((.+?)\)/gi;
+        var extractionRegex = /(?:the\s)?((?:extreme\s)?[a-z]+(?:\sand\s[a-z]+)?)\s((?:[a-z]+tions?)+)(?:\sof)?(?:\smainland)?\s((?:[\xF1\w]+|\s)+?)\s?\((.+?)\)/gi;
         
         let match;
         var matchList = [];
@@ -116,16 +116,24 @@ class PagasaScraper {
     }
 
     _extractIslands(areas) {
-        var extractionRegex = /\b((?:[\xF1\w]+)+\sIslands?)\b/gi;
+        var extractionRegex = /\b((?:[\xF1\w]+(\sand\s[\xF1\w]+)?)+\sIslands?)\b/gi;
         
         let match;
         var matchList = [];
         
         while ((match = extractionRegex.exec(areas)) != null) {
-            matchList.push({
-                province: match[1],
-                part: false
-            });
+            if (match[1].includes(" and ")) {
+                for (const island of match[1].replace(/\sIslands?/g, "").replace(/\sand\s/gi, ",").split(","))
+                    matchList.push({
+                        province: island + " Island",
+                        part: false
+                    });
+            } else {
+                matchList.push({
+                    province: match[1],
+                    part: false
+                });
+            }
         }
 
         areas = areas.replace(extractionRegex, "").replace(/,{2}/g, ",");
