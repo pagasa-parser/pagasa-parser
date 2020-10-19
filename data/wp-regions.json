@@ -59,8 +59,9 @@
         ]
     },
     {
-        "name": "Calabarzon",
-        "designation": "Region IV-A",
+        "name": "Southern Tagalog Mainland",
+        "page": "Calabarzon",
+        "designation": "Calabarzon/Region IV-A",
         "psgc" : "04",
         "provinces": [
             "Batangas",

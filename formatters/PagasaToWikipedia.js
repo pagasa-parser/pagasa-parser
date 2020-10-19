@@ -159,7 +159,7 @@ class PagasaToWikipedia {
         + `| PH3 = ${signals["3"].trim()}\n`
         + `| PH2 = ${signals["2"].trim()}\n`
         + `| PH1 = ${signals["1"].trim()}\n`
-        + `| source = [http://bagong.pagasa.dost.gov.ph/tropical-cyclone/severe-weather-bulletin/2 PAGASA]\n`
+        + `| PHsource = [http://bagong.pagasa.dost.gov.ph/tropical-cyclone/severe-weather-bulletin/2 PAGASA]\n`
         + `}}`;
     }
 

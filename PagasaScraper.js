@@ -57,7 +57,7 @@ class PagasaScraper {
     }
 
     _extractSections(areas) {
-        var extractionRegex = /(?:the\s)?((?:extreme\s)?[a-z]+(?:\sand\s[a-z]+)?)\s((?:[a-z]+tions?)+)(?:\sof)?(?:\smainland)?\s((?:[\xF1\w]+|\s)+?)\s?\((.+?)\)/gi;
+        var extractionRegex = /(?:(?:the\s)?((?:extreme\s)?[a-z]+(?:\sand\s[a-z]+)?)\s((?:[a-z]+tions?)+)(?:\sof)?(?:\smainland)?\s)?((?:[\xF1\w]+|\s)+?)[\s,]{0,2}\((.+?)\)/gi;
         
         let match;
         var matchList = [];
@@ -75,8 +75,8 @@ class PagasaScraper {
                 province: match[3],
                 part: true,
                 includes: {
-                    part: match[1],
-                    term: match[2],
+                    part: match[1] || "",
+                    term: match[2] || "part",
                     municipalities: includes
                 }
             });
@@ -217,7 +217,7 @@ class PagasaScraper {
 
         Object.entries(landmasses).forEach(([i, landmassElement]) => {
             var areas = landmassElement;
-            areas = areas.replace(/(,\s?and\s|\s?including\s)/g, ",").replace(/(\s{2}|\.$)/g, "");
+            areas = areas.replace(/(,\s?and\s|\s?including\s)/g, ",").replace(/(\s{2}|\.$)/g, "").replace(/Ã±/g, "\u00f1");
 
             var sections = this._extractSections(areas);
             areas = sections["new"];
