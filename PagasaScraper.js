@@ -77,7 +77,7 @@ class PagasaScraper {
                 includes: {
                     part: match[1] || "",
                     term: match[2] || "part",
-                    municipalities: includes
+                    municipalities: includes.sort()
                 }
             });
         }
