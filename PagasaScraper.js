@@ -249,9 +249,11 @@ class PagasaScraper {
             wholes = wholes["list"];
 
             finalAffectedAreas[i] = [...wholes, ...mainlands, ...islands, ...rests, ...sections];
-            finalAffectedAreas[i] = finalAffectedAreas[i].filter((e) => {
-                return e.province !== "and";
-            });
+            finalAffectedAreas[i] = finalAffectedAreas[i]
+                .filter((e) => {
+                    return e.province !== "and";
+                })
+                .sort((p1, p2) => p1.localeCompare(p2));
 
             if (/[^,.\- ]/gi.test(areas)) {
                 if (finalAffectedAreas["extras"] === undefined)
