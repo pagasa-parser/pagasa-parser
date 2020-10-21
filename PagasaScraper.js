@@ -253,7 +253,7 @@ class PagasaScraper {
                 .filter((e) => {
                     return e.province !== "and";
                 })
-                .sort((p1, p2) => p1.localeCompare(p2));
+                .sort((p1, p2) => p1.province.localeCompare(p2.province));
 
             if (/[^,.\- ]/gi.test(areas)) {
                 if (finalAffectedAreas["extras"] === undefined)
