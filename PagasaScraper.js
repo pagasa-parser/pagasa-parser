@@ -227,7 +227,6 @@ class PagasaScraper {
             areas = areas
                 .replace(/the\s(the)+/gi, "the")
                 .replace(/(rest\s+of\s+)(([a-z]+(?:\sand\s[a-z]+)?)\s((?:[a-z]+tions?)+))/gi, "$1the $2");
-            console.log(areas);
 
             var sections = this._extractSections(areas);
             areas = sections["new"];
