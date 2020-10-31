@@ -57,7 +57,7 @@ class PagasaScraper {
     }
 
     _extractSections(areas) {
-        var extractionRegex = /(?:(?:(?:and\s+)?the\s+)?((?:rest\s+of\s+the\s+)?(?:extreme\s)?[a-z]+(?:\sand\s[a-z]+)?)\s((?:[a-z]+tions?)+)(?:\sof)?(?:\smainland)?\s)?((?:[\xF1\w]+|\s)+?)[\s,]{0,2}\((.+?)\)/gi;
+        var extractionRegex = /(?:(?:\s*and\s+)?the\s+)?(?:((?:rest\s+of\s+the\s+)?(?:extreme\s)?[a-z]+(?:\sand\s[a-z]+)?)\s((?:[a-z]+tions?)+)(?:\sof)?(?:\smainland)?\s)?((?:[\xF1\w]+|\s)+?)[\s,]{0,2}\((.+?)\)/gi;
         
         let match;
         var matchList = [];
@@ -218,7 +218,7 @@ class PagasaScraper {
         Object.entries(landmasses).forEach(([i, landmassElement]) => {
             var areas = landmassElement;
             areas = areas
-                .replace(/(,\s+|,\s?and\s|\s?including\s)/g, ",")
+                .replace(/(,\s*\band\b\s*|,\s+|\s?including\s)/gi, ",")
                 .replace(/\s{2,}/, " ")
                 .replace(/\.$/g, "")
                 .replace(/Ã±/g, "\u00f1");
@@ -226,6 +226,7 @@ class PagasaScraper {
             // Correct errors
             areas = areas
                 .replace(/the\s(the)+/gi, "the")
+                .replace(/\-An/g, "-an")
                 .replace(/(rest\s+of\s+)(([a-z]+(?:\sand\s[a-z]+)?)\s((?:[a-z]+tions?)+))/gi, "$1the $2");
 
             var sections = this._extractSections(areas);
@@ -335,6 +336,9 @@ class PagasaScraper {
     }
 
     _extractBulletinDetails(typhoonDetails) {
+        var title = this.$("#swb").text().trim();
+        var number = +(this.$("#swb").text().match(/\d+/));
+        
         var issued = new Date(Date.parse(/Issued at .+/gi.exec(this.$(":contains('Issued at')").filter((i, e) => {
             return /Issued at [0-9]+:[0-9]+\s?[apm]+,?\s?[0-9]+\s[a-z]+\s[0-9]+/gi.test(this.$(e).text());
         }).text())));
@@ -342,6 +346,10 @@ class PagasaScraper {
         issued.setHours(issued.getHours() - 8);
         
         return {
+            title: title,
+            number: number,
+            bulletin: `http://pubfiles.pagasa.dost.gov.ph/tamss/weather/bulletin/SWB%23${number}.pdf`,
+            bulletin_latest: "http://pubfiles.pagasa.dost.gov.ph/tamss/weather/bulletin.pdf",
             issued_timestamp: issued.getTime(),
             issued: issued.toUTCString(),
             summary: this.$(".row h5:contains('\"" + typhoonDetails.name.toUpperCase() + "\"')").text()
