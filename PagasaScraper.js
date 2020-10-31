@@ -217,17 +217,23 @@ class PagasaScraper {
 
         Object.entries(landmasses).forEach(([i, landmassElement]) => {
             var areas = landmassElement;
-            areas = areas
-                .replace(/(,\s*\band\b\s*|,\s+|\s?including\s)/gi, ",")
-                .replace(/\s{2,}/, " ")
-                .replace(/\.$/g, "")
-                .replace(/Ã±/g, "\u00f1");
             
             // Correct errors
             areas = areas
+                .replace(/Ã±/g, "\u00f1")
                 .replace(/the\s(the)+/gi, "the")
                 .replace(/\-An/g, "-an")
-                .replace(/(rest\s+of\s+)(([a-z]+(?:\sand\s[a-z]+)?)\s((?:[a-z]+tions?)+))/gi, "$1the $2");
+                .replace(/(rest\s+of\s+)(([a-z]+(?:\sand\s[a-z]+)?)\s((?:[a-z]+tions?)+))/gi, "$1the $2")
+                .replace(/^\s*(.+)\s+and\s+(.+\s*(?:\([^)]+\)))\s*$/gi, "$1, $2");
+            
+            // Split parts
+            areas = areas
+                .replace(/(,\s*\band\b\s*|,\s+|\s?including\s)/gi, ",")
+                .replace(/\s{2,}/g, " ")
+                .replace(/\.$/g, "")
+                .replace(/,{2,}/g, ",");
+                
+            console.log(areas);
 
             var sections = this._extractSections(areas);
             areas = sections["new"];
