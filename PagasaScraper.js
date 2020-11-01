@@ -233,7 +233,10 @@ class PagasaScraper {
                 .replace(/\.$/g, "")
                 .replace(/,{2,}/g, ",");
                 
-            console.log(areas);
+            areas.trim();
+            
+            if (!areas.includes(","))
+                areas = areas.replace(/^(.+?)\s+and\s+(.+?)$/g, "$1, $2")
 
             var sections = this._extractSections(areas);
             areas = sections["new"];
