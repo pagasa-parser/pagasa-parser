@@ -4,7 +4,7 @@
   "description": "A Node.js application that parses information from PAGASA's Severe Weather Bulletin page and turns it into various formats.",
   "main": "PagasaParser.js",
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "cheerio": "^1.0.0-rc.3",
     "fs-jetpack": "^2.3.0"
   },
