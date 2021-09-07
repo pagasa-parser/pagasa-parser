@@ -1,6 +1,7 @@
 import {Area, Island, LocationMainland, LocationPart, LocationRest, LocationWhole} from "../typedefs/Area";
 import stringSimilarity from "string-similarity";
 import ParsingError from "../error/ParsingError";
+import deepDeleteUndefined from "../util/deepDeleteUndefined";
 
 interface AreaExtractorSubroutine {
     matcher: (term : string) => boolean;
@@ -70,6 +71,10 @@ export default class AreaExtractor {
             while (this.peek(/\s|,/g))
                 this.shift();
         } while (this.currentPos < this.areaString.length);
+
+        // Clean output
+        deepDeleteUndefined(extractedAreas);
+
         return extractedAreas;
     }
 
