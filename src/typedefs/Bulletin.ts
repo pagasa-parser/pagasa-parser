@@ -1,13 +1,17 @@
 import Landmass, {Area} from "./Area";
 
-export interface Typhoon {
+export interface Cyclone {
     name: string;
-    prevailing : boolean;
+    internationalName?: string;
+    prevailing? : boolean;
     center: {
         lat: number,
         lon: number
     };
-    movement: string;
+    movement: {
+        direction?: string,
+        speed: number | string
+    } | string;
 }
 
 export interface BulletinInfo {
@@ -17,6 +21,7 @@ export interface BulletinInfo {
     url: string;
 
     issued: Date;
+    expires: Date;
     summary: string;
 }
 
@@ -34,9 +39,9 @@ export type TCWSLevels = {
 
 export interface Bulletin {
 
-    active: boolean;
-    typhoon?: Typhoon;
-    bulletin?: BulletinInfo;
-    signals?: TCWSLevels;
+    active?: boolean;
+    cyclone: Cyclone;
+    info: BulletinInfo;
+    signals: TCWSLevels;
 
 }
