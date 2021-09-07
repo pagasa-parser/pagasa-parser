@@ -1,3 +1,3 @@
-export * as AreaExtractor from "./extractors/AreaExtractor";
-export * as Area from "./typedefs/Area";
-export * as Bulletin from "./typedefs/Bulletin";
+export { default as AreaExtractor } from "./extractors/AreaExtractor";
+export * from "./typedefs/Area";
+export * from "./typedefs/Bulletin";

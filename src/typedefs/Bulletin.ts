@@ -21,7 +21,7 @@ export interface BulletinInfo {
 }
 
 export interface TCWSLevel {
-    affected_areas: { [ key in Landmass ] : Area[] };
+    areas: { [ key in Landmass ] : Area[] };
 }
 
 export type TCWSLevels = {
