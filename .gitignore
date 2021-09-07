@@ -1,13 +1,17 @@
-# node modules
-node_modules/
+# Don't include dependencies
+node_modules
 
-# the Wikipedia list of province pages
-#
-# this is to force your installation to use the latest
-# version of the page
-wp-provinces.json
+# Skip legacy
+legacy
 
-test.*
-
-# no
+# Development
 .vscode
+.idea
+
+# Build/test artifacts
+coverage
+build
+*.tgz
+
+# Automatically-built files
+.npmignore

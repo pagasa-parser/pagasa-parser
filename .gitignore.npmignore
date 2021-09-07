@@ -1,0 +1,21 @@
+# =============================================================================
+# These are npm-exclusive ignore rules. This is combined with the .gitignore
+# file during the "prepack" script to minimize the packed dependency's size.
+# =============================================================================
+
+# Self
+.gitignore.npmignore
+
+# Styling
+.eslintrc.json
+
+# Build/test configurations and files
+tests
+jest.config.js
+tsconfig.json
+
+# Skip source (only for npm!)
+src
+
+# Don't ignore build files!
+!build
