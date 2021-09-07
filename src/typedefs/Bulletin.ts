@@ -16,17 +16,12 @@ export interface BulletinInfo {
 
     url: string;
 
-    issued: number;
-    issued_utc: string;
+    issued: Date;
     summary: string;
 }
 
 export interface TCWSLevel {
     affected_areas: { [ key in Landmass ] : Area[] };
-    meteorological_condition?: string[];
-    impact_of_the_wind?: string[];
-    precautionary_measures?: string[];
-    what_to_do?: string[];
 }
 
 export type TCWSLevels = {
@@ -42,6 +37,6 @@ export interface Bulletin {
     active: boolean;
     typhoon?: Typhoon;
     bulletin?: BulletinInfo;
-    tcws_active: TCWSLevels;
+    signals?: TCWSLevels;
 
 }
