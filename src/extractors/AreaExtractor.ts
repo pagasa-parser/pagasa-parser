@@ -51,6 +51,9 @@ export default class AreaExtractor {
     }
 
     extractAreas() : Area[] {
+        if (this.areaString.length === 0)
+            return [];
+
         const extractedAreas : Area[] = [];
 
         do {
