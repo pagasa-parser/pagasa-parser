@@ -64,4 +64,8 @@ export function areaIsWhole(area : Area) : area is LocationWhole | Island {
     return area.part === false;
 }
 
+export function areaHasIslands(area : Area) : area is Area & { islands: Island[] } {
+    return (area as any).islands != null;
+}
+
 export type Area = LocationWhole | LocationPart | LocationRest | LocationMainland | Island;
