@@ -24,7 +24,8 @@ export interface LocationPart extends Location {
         // portion, region, etc.
         term: string,
         part: string,
-        objects: string[]
+        objects: string[],
+        mainland?: boolean
     }
 }
 

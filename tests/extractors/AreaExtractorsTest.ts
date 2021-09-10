@@ -1,4 +1,5 @@
 import AreaExtractor from "../../src/extractors/AreaExtractor";
+import {LocationPart} from "../../src/typedefs/Area";
 
 describe("AreaExtractor tests", () => {
 
@@ -176,6 +177,29 @@ describe("AreaExtractor tests", () => {
         });
     });
 
+    test("Partitioned (mainland)", () => {
+        const extractor = new AreaExtractor(
+            "extreme northeastern portion of mainland Cagayan (Santa Ana, Gonzaga)",
+        );
+        const areas = extractor.extractAreas();
+
+        expect(Array.isArray(areas)).toBeTruthy();
+        expect(areas.length).toBe(1);
+        expect(areas[0]).toMatchObject({
+            name: "Cagayan",
+            part: true,
+            includes: {
+                type: "section",
+                term: "portion",
+                part: "extreme northeastern",
+                mainland: true,
+                objects: [
+                    "Santa Ana", "Gonzaga"
+                ]
+            }
+        });
+    });
+
     test("Partitioned (islands)", () => {
         const extractor = new AreaExtractor(
             "the northeastern portion of Surigao del Norte (Sta. Monica, Burgos, San Benito, San Isidro, Pilar, Del Carmen, Dapa, Gen. Luna, Socorro) including Siargao Island",
@@ -239,6 +263,30 @@ describe("AreaExtractor tests", () => {
         expect(areas[1]).toMatchObject({
             name: "Ticao Island",
             part: false
+        });
+    });
+
+    test("Islands (with subisland)", () => {
+        const extractor = new AreaExtractor(
+            "Batanes and the northeastern portion of Babuyan Islands (Babuyan Is.)"
+        );
+        const areas = extractor.extractAreas();
+
+        expect(Array.isArray(areas)).toBeTruthy();
+        expect(areas.length).toBe(2);
+        expect(areas[0]).toMatchObject({
+            name: "Batanes",
+            part: false
+        });
+        expect(areas[1]).toMatchObject(<LocationPart>{
+            name: "Babuyan Islands",
+            part: true,
+            includes: {
+                type: "section",
+                part: "northeastern",
+                term: "portion",
+                objects: ["Babuyan Island"]
+            }
         });
     });
 

@@ -152,6 +152,7 @@ export default class AreaExtractor {
         } while (
             !this.peek(/[(),]/g)
             && this.peekTerm() !== "including"
+            && this.areaString.substr(this.currentPos, 5) !== " and "
             && this.currentPos < this.areaString.length
         );
 
@@ -164,7 +165,10 @@ export default class AreaExtractor {
         const parts = [];
         if (this.match("(")) {
             do {
-                parts.push(this.nextLocation());
+                let location = this.nextLocation();
+                if (location.endsWith("Is."))
+                    location = location.replace(/Is\./g, "Island");
+                parts.push(location);
 
                 while (this.peek(/\s|,/g))
                     this.shift();
@@ -209,6 +213,12 @@ export default class AreaExtractor {
             this.nextTerm();
         }
 
+        let mainland : true | null;
+        if (this.peekTerm() === "mainland") {
+            this.nextTerm();
+            mainland = true;
+        }
+
         const {name, parts, islands} = this.extractPartitionComponents();
 
         return {
@@ -218,7 +228,8 @@ export default class AreaExtractor {
                 type: "section",
                 term: term,
                 part: part,
-                objects: parts
+                objects: parts,
+                mainland: mainland ?? undefined
             },
             islands: islands
         }
