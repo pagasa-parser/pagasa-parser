@@ -28,6 +28,10 @@ export interface LocationPart extends Location {
     }
 }
 
+export function areaIsPart(area : Area) : area is LocationPart {
+    return (area as any).includes?.type === "section";
+}
+
 export interface LocationRest extends Location {
     part: true;
     includes: {
@@ -37,6 +41,10 @@ export interface LocationRest extends Location {
     }
 }
 
+export function areaIsRestOf(area : Area) : area is LocationRest {
+    return (area as any).includes?.type === "rest";
+}
+
 export interface LocationMainland extends Location {
     part: true;
     includes: {
@@ -44,8 +52,16 @@ export interface LocationMainland extends Location {
     }
 }
 
+export function areaIsMainland(area : Area) : area is LocationMainland {
+    return (area as any).includes?.type === "mainland";
+}
+
 export interface Island extends Omit<Location, "islands"> {
     part: false;
 }
 
-export type Area = Location | LocationPart | LocationRest | LocationMainland | Island;
+export function areaIsWhole(area : Area) : area is LocationWhole | Island {
+    return area.part === false;
+}
+
+export type Area = LocationWhole | LocationPart | LocationRest | LocationMainland | Island;

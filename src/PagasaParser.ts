@@ -1,4 +1,5 @@
 export { default as AreaExtractor } from "./extractors/AreaExtractor";
+export { default as FormattingError } from "./error/ParsingError";
 export { default as ParsingError } from "./error/ParsingError";
 export { PagasaParserSource } from "./abstract/PagasaParserSource";
 export { PagasaParserFormatter } from "./abstract/PagasaParserFormatter";
