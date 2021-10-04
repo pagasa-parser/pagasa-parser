@@ -46,7 +46,7 @@ export default class AreaExtractor {
     };
 
     constructor(areaString : string) {
-        this.areaString = areaString.replace(/\n+/g, " ");
+        this.areaString = areaString.replace(/\n+/g, " ").trim().replace(/\.$/, "");
         this.currentPos = 0;
     }
 
