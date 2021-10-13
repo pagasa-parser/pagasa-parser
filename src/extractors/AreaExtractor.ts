@@ -69,6 +69,8 @@ export default class AreaExtractor {
             .replace(/the(\S+?)(portion|region)of(\S+)/gi, "the $1 $2 of $3")
             // "BabuyanIslands" to "Babuyan Islands"
             .replace(/(\S)Islands?/gi, "$1 Islands")
+            // "CityofTabuk" to "City of Tabuk"
+            .replace(/Cityof(.+)/gi, "City of $1")
 
         return areaString;
     }

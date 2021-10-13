@@ -1,10 +1,8 @@
-enum Landmass {
+export enum Landmass {
     Luzon,
     Visayas,
     Mindanao
 }
-
-export default Landmass;
 
 interface Location {
     name: string;
