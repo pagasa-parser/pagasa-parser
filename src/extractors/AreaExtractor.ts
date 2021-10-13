@@ -30,7 +30,7 @@ export default class AreaExtractor {
         },
         rest: <AreaExtractorSubroutine>{
             // Rest of area
-            matcher: (term) => /rest/g.test(term),
+            matcher: (term) => /rest|remaining/g.test(term),
             function: this.extractRest
         },
         mainland: <AreaExtractorSubroutine>{
@@ -46,12 +46,35 @@ export default class AreaExtractor {
     };
 
     constructor(areaString : string) {
-        this.areaString = areaString.replace(/\n+/g, " ").trim().replace(/\.$/, "");
+        this.areaString = this.attemptRepair(areaString)
+            .trim()
+            // Remove ending period
+            .replace(/\.$/, "");
+
         this.currentPos = 0;
     }
 
+    /**
+     * Attempts to fix possible parsing issues or otherwise unclean strings
+     * from a pagasa-parser data source.
+     * @param areaString
+     */
+    attemptRepair(areaString : string) : string {
+        areaString = areaString
+            // Replace carriage returns and line feeds with normal spaces
+            .replace(/([\r\n]|\\[rn])+/g, " ")
+            // "Babuyan Is." to "Babuyan Island"
+            .replace(/\s*Is\./g, "Island")
+            // "theeasternportionofBabuyanIslands" to "the eastern portion of BabuyanIslands"
+            .replace(/the(\S+?)(portion|region)of(\S+)/gi, "the $1 $2 of $3")
+            // "BabuyanIslands" to "Babuyan Islands"
+            .replace(/(\S)Islands?/gi, "$1 Islands")
+
+        return areaString;
+    }
+
     extractAreas() : Area[] {
-        if (this.areaString.length === 0)
+        if (this.areaString.length === 0 || this.areaString === "-")
             return [];
 
         const extractedAreas : Area[] = [];
