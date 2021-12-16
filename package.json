@@ -4,6 +4,14 @@
     "description": "A Node.js library that parses information from PAGASA's Severe Weather Bulletin page and turns it into various formats.",
     "main": "build/PagasaParser.js",
     "types": "build/PagasaParser.d.ts",
+    "files": [
+        "build",
+        "CONTRIBUTING.md",
+        "LICENSE",
+        "package.json",
+        "package-lock.json",
+        "README.md"
+    ],
     "dependencies": {
         "string-similarity": "^4.0.4"
     },
@@ -11,7 +19,6 @@
         "@types/jest": "^27.0.1",
         "@types/string-similarity": "^4.0.0",
         "@typescript-eslint/eslint-plugin": "^4.6.0",
-        "cat": "^0.2.0",
         "eslint": "^7.12.1",
         "jest": "^27.1.0",
         "ts-jest": "^27.0.5",
@@ -24,8 +31,7 @@
         "coverage": "npm run coverage:full",
         "coverage:full": "jest --coverage --collectCoverageFrom=src/**/*.{js,jsx,ts,tsx}",
         "coverage:minimal": "jest --coverage",
-        "reignore": "cat .gitignore > .npmignore && cat .gitignore.npmignore >> .npmignore",
-        "prepack": "npm run build && npm run reignore"
+        "prepack": "npm run build"
     },
     "repository": {
         "type": "git",
