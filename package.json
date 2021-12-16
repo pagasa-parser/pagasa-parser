@@ -3,6 +3,7 @@
     "version": "2.0.7",
     "description": "A Node.js library that parses information from PAGASA's Severe Weather Bulletin page and turns it into various formats.",
     "main": "build/PagasaParser.js",
+    "types": "build/PagasaParser.d.ts",
     "dependencies": {
         "string-similarity": "^4.0.4"
     },
