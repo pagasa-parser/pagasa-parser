@@ -20,8 +20,9 @@ export interface BulletinInfo {
 
     url: string;
 
+    final: boolean;
     issued: Date;
-    expires: Date;
+    expires: Date | null;
     summary: string;
 }
 
