@@ -348,6 +348,15 @@ describe("AreaExtractor error handling tests", () => {
         }).toThrow();
     });
 
+    test("Partitioned (unclosed parenthesis)", () => {
+        expect(() => {
+            const extractor = new AreaExtractor(
+                "The northern portion of Biliran (Kawayan, and Guimaras",
+            );
+            extractor.extractAreas();
+        }).toThrow();
+    });
+
     test("Partitioned (sudden termination)", () => {
         expect(() => {
             const extractor = new AreaExtractor(

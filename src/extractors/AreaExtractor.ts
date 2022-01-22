@@ -189,6 +189,17 @@ export default class AreaExtractor {
 
         const parts = [];
         if (this.match("(")) {
+            // Balanced parenthesis check
+            let terminating = false;
+            for (const letter of this.areaString.substr(this.currentPos)) {
+                if (letter === ")") {
+                    terminating = true;
+                    break;
+                }
+            }
+            if (!terminating)
+                throw new ParsingError("Unclosed parenthesis.", name);
+
             do {
                 let location = this.nextLocation();
                 if (location.endsWith("Is."))
