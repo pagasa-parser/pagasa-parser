@@ -12,7 +12,10 @@ interface Location {
 
 export interface LocationWhole extends Location {
     part: false;
-    includes?: never;
+    includes?: {
+        type: "whole",
+        objects: string[]
+    }
 }
 
 export interface LocationPart extends Location {

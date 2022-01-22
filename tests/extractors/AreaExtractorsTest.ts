@@ -1,5 +1,5 @@
 import AreaExtractor from "../../src/extractors/AreaExtractor";
-import {LocationPart} from "../../src/typedefs/Area";
+import {LocationPart, LocationWhole} from "../../src/typedefs/Area";
 
 describe("AreaExtractor tests", () => {
 
@@ -312,6 +312,27 @@ describe("AreaExtractor tests", () => {
                 type: "rest"
             }
         });
+    });
+
+    test("Whole with included objects", () => {
+        const extractor = new AreaExtractor(
+            "Batangas, the southeastern portion of\n" +
+            "Quezon (San Francisco, San Andres, San\n" +
+            "Narciso, Mulanay, Catanauan), Marinduque,\n" +
+            "Masbate (Esperanza, Mandaon, Palanas,\n" +
+            "Baleno, Placer, Cawayan, Milagros, Dimasalang,\n" +
+            "Uson, Cataingan, Pio V. Corpuz, Balud, City of\n" +
+            "Masbate, Aroroy, Mobo), and Romblon"
+        );
+        const areas = extractor.extractAreas();
+
+        expect(areas.find(v => v.name === "(Esperanza")).toBeUndefined();
+
+        const masbate = areas.find(v => v.name === "Masbate");
+        expect(masbate).not.toBeUndefined();
+        expect((masbate as LocationWhole).includes?.objects?.includes("Esperanza")).toBeTruthy();
+        expect((masbate as LocationWhole).includes?.objects?.includes("Baleno")).toBeTruthy();
+        expect((masbate as LocationWhole).includes?.objects?.includes("Mobo")).toBeTruthy();
     });
 
 });

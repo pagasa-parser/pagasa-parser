@@ -320,6 +320,21 @@ export default class AreaExtractor {
             return this.extractIslands();
         }
 
+        // Partitioned location
+        if (this.peekTerm()?.startsWith("(")) {
+            this.currentPos = startingPos;
+            const { name, parts, islands } = this.extractPartitionComponents();
+            return {
+                name: name,
+                part: false,
+                includes: {
+                    type: "whole",
+                    objects: parts
+                },
+                islands: islands
+            };
+        }
+
         return {
             name: name,
             part: false,
