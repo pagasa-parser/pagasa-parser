@@ -68,7 +68,7 @@ export default class AreaExtractor {
             // "theeasternportionofBabuyanIslands" to "the eastern portion of BabuyanIslands"
             .replace(/the(\S+?)(portion|region)of(\S+)/gi, "the $1 $2 of $3")
             // "BabuyanIslands" to "Babuyan Islands"
-            .replace(/(\S)Islands?/gi, "$1 Islands")
+            .replace(/(\S)Island(s?)/gi, "$1 Island$2")
             // "CityofTabuk" to "City of Tabuk"
             .replace(/Cityof(.+)/gi, "City of $1")
 
@@ -326,7 +326,21 @@ export default class AreaExtractor {
         }
 
         // Redirect if islands
-        if (/Islands?$/gi.test(name)) {
+        let isIsland = /Islands?$/gi.test(name);
+        if (this.peekTerm() !== null) {
+            // Detect islands in advance
+            const checkStartPos = this.currentPos;
+            let nextTerm = "";
+            while (!isIsland) {
+                nextTerm = this.nextTerm();
+                if (/^Islands?/gi.test(nextTerm))
+                    isIsland = true;
+                if (nextTerm == null || /(^the$|[,)]$)/.test(nextTerm))
+                    break;
+            }
+            this.currentPos = checkStartPos;
+        }
+        if (isIsland) {
             this.currentPos = startingPos;
             return this.extractIslands();
         }
