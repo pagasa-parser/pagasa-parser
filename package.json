@@ -22,6 +22,7 @@
         "eslint": "^7.12.1",
         "husky": "^7.0.4",
         "jest": "^27.1.0",
+        "rimraf": "^3.0.2",
         "ts-jest": "^27.0.5",
         "ts-node": "^10.2.1",
         "typescript": "^4.4.2"
@@ -32,7 +33,8 @@
         "coverage": "npm run coverage:full",
         "coverage:full": "jest --coverage --collectCoverageFrom=src/**/*.{js,jsx,ts,tsx}",
         "coverage:minimal": "jest --coverage",
-        "prepack": "npm run build",
+        "prepack": "npm run clean && npm run build",
+        "clean": "rimraf build",
         "prepare": "husky install"
     },
     "repository": {
