@@ -1,0 +1,45 @@
+name: CD
+
+on:
+    push:
+    pull_request:
+
+jobs:
+    audit:
+        name: Build, Audit, Deploy
+        runs-on: ubuntu-latest
+        env:
+            NODE_ENV: development
+
+        steps:
+            -   name: Checkout code
+                uses: actions/checkout@v2
+
+            -   name: Install dependencies (backend)
+                run: npm ci --workspace backend
+
+            -   name: Install dependencies (frontend)
+                run: npm ci --workspace frontend
+
+            -   name: Perform audit (backend)
+                uses: oke-py/npm-audit-action@v1.8.3
+                with:
+                    working_directory: backend
+                    audit_level: moderate
+                    github_token: ${{ secrets.GITHUB_TOKEN }}
+
+            -   name: Perform audit (frontend)
+                uses: oke-py/npm-audit-action@v1.8.3
+                with:
+                    working_directory: frontend
+                    audit_level: moderate
+                    github_token: ${{ secrets.GITHUB_TOKEN }}
+
+            -   name: Perform tests
+                run: npm test
+
+            -   name: Publish
+                if: github.ref_type == 'tag'
+                run: npm publish
+                env:
+                    NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_KEY }}
