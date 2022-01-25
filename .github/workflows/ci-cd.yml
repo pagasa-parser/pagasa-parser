@@ -15,23 +15,12 @@ jobs:
             -   name: Checkout code
                 uses: actions/checkout@v2
 
-            -   name: Install dependencies (backend)
-                run: npm ci --workspace backend
+            -   name: Install dependencies
+                run: npm ci
 
-            -   name: Install dependencies (frontend)
-                run: npm ci --workspace frontend
-
-            -   name: Perform audit (backend)
+            -   name: Perform audit
                 uses: oke-py/npm-audit-action@v1.8.3
                 with:
-                    working_directory: backend
-                    audit_level: moderate
-                    github_token: ${{ secrets.GITHUB_TOKEN }}
-
-            -   name: Perform audit (frontend)
-                uses: oke-py/npm-audit-action@v1.8.3
-                with:
-                    working_directory: frontend
                     audit_level: moderate
                     github_token: ${{ secrets.GITHUB_TOKEN }}
 
