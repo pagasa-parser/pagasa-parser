@@ -14,8 +14,8 @@ export default class AreaExtractor {
     private get currentChar() : string {
         return this.currentPos < this.areaString.length ?
             this.areaString[this.currentPos] : null;
-    };
-    private currentPos : number = 0;
+    }
+    private currentPos  = 0;
 
     private readonly subroutines = {
         directional: <AreaExtractorSubroutine>{
@@ -70,7 +70,7 @@ export default class AreaExtractor {
             // "BabuyanIslands" to "Babuyan Islands"
             .replace(/(\S)Island(s?)/gi, "$1 Island$2")
             // "CityofTabuk" to "City of Tabuk"
-            .replace(/Cityof(.+)/gi, "City of $1")
+            .replace(/Cityof(.+)/gi, "City of $1");
 
         return areaString;
     }
@@ -124,8 +124,8 @@ export default class AreaExtractor {
     }
 
     private peekTerm() : string {
-        let term : string = "";
-        let startPos = this.currentPos;
+        let term  = "";
+        const startPos = this.currentPos;
 
         while (this.peek(" "))
             this.shift();
@@ -145,7 +145,7 @@ export default class AreaExtractor {
     }
 
     private nextTerm(matcher : string | RegExp = " ") : string {
-        let term : string = "";
+        let term  = "";
 
         while (this.peek(" "))
             this.shift();
@@ -164,7 +164,7 @@ export default class AreaExtractor {
     }
 
     private nextLocation() : string {
-        let term : string = "";
+        let term  = "";
 
         while (this.peek(" "))
             this.shift();
@@ -220,7 +220,7 @@ export default class AreaExtractor {
 
         return {
             name, parts, islands
-        }
+        };
     }
 
     private extractPartitioned(startingTerm : string) : LocationPart {
@@ -240,7 +240,7 @@ export default class AreaExtractor {
             if (stringMatch.bestMatch.rating >= 0.5) {
                 term = stringMatch.bestMatch.target;
             } else {
-                part += " " + currentTerm
+                part += " " + currentTerm;
             }
         } while (term == null);
 
@@ -268,7 +268,7 @@ export default class AreaExtractor {
                 mainland: mainland ?? undefined
             },
             islands: islands
-        }
+        };
     }
 
     private extractRest(startingTerm : string) : LocationRest | LocationPart {
@@ -301,7 +301,7 @@ export default class AreaExtractor {
                 objects: parts.length > 0 ? parts : undefined
             },
             islands: islands
-        }
+        };
     }
 
     private extractMainland() : LocationMainland {
@@ -311,7 +311,7 @@ export default class AreaExtractor {
             includes: {
                 type: "mainland"
             }
-        }
+        };
     }
 
     private extractLocation(_ : string, startingPos : number) : LocationWhole | Island[] {
@@ -364,7 +364,7 @@ export default class AreaExtractor {
             name: name,
             part: false,
             islands: islands
-        }
+        };
     }
 
     private extractIslands() : Island[] {
@@ -373,7 +373,7 @@ export default class AreaExtractor {
 
         do {
             // Remove trailing commas and whitespace.
-            let islandName = this.nextTerm(/\s|,/g);
+            const islandName = this.nextTerm(/\s|,/g);
 
             if (/Islands?$/.test(islandName)) {
                 break;
