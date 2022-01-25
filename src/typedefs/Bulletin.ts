@@ -27,15 +27,15 @@ export interface BulletinInfo {
 }
 
 export interface TCWSLevel {
-    areas: { [ key in Landmass ] : Area[] };
+    areas: { [ key in Landmass ]: Area[] };
 }
 
 export type TCWSLevels = {
-    1 : TCWSLevel | null,
-    2 : TCWSLevel | null,
-    3 : TCWSLevel | null,
-    4 : TCWSLevel | null,
-    5 : TCWSLevel | null
+    1: TCWSLevel | null,
+    2: TCWSLevel | null,
+    3: TCWSLevel | null,
+    4: TCWSLevel | null,
+    5: TCWSLevel | null
 }
 
 export interface Bulletin {

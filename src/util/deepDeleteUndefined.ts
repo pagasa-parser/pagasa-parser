@@ -1,4 +1,4 @@
-export default function deepDeleteUndefined<T extends Record<string, any>>(object : T) : T {
+export default function deepDeleteUndefined<T extends Record<string, any>>(object: T): T {
     for (const key of Object.keys(object)) {
         if (typeof object[key] === "object") {
             deepDeleteUndefined(object[key]);

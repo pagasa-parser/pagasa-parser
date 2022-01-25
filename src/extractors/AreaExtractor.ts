@@ -4,14 +4,14 @@ import ParsingError from "../error/ParsingError";
 import deepDeleteUndefined from "../util/deepDeleteUndefined";
 
 interface AreaExtractorSubroutine {
-    matcher: (term : string) => boolean;
-    function: (startingTerm : string, startingPos : number) => Area | Area[];
+    matcher: (term: string) => boolean;
+    function: (startingTerm: string, startingPos: number) => Area | Area[];
 }
 
 export default class AreaExtractor {
 
-    private readonly areaString : string;
-    private get currentChar() : string {
+    private readonly areaString: string;
+    private get currentChar(): string {
         return this.currentPos < this.areaString.length ?
             this.areaString[this.currentPos] : null;
     }
@@ -45,7 +45,7 @@ export default class AreaExtractor {
         }
     };
 
-    constructor(areaString : string) {
+    constructor(areaString: string) {
         this.areaString = this.attemptRepair(areaString)
             .trim()
             // Remove ending period
@@ -59,7 +59,7 @@ export default class AreaExtractor {
      * from a pagasa-parser data source.
      * @param areaString
      */
-    attemptRepair(areaString : string) : string {
+    attemptRepair(areaString: string): string {
         areaString = areaString
             // Replace carriage returns and line feeds with normal spaces
             .replace(/([\r\n]|\\[rn])+/g, " ")
@@ -75,11 +75,11 @@ export default class AreaExtractor {
         return areaString;
     }
 
-    extractAreas() : Area[] {
+    extractAreas(): Area[] {
         if (this.areaString.length === 0 || this.areaString === "-")
             return [];
 
-        const extractedAreas : Area[] = [];
+        const extractedAreas: Area[] = [];
 
         do {
             const pos = this.currentPos;
@@ -106,16 +106,16 @@ export default class AreaExtractor {
         return extractedAreas;
     }
 
-    private shift() : void {
+    private shift(): void {
         ++this.currentPos;
     }
 
-    private peek(matcher : string | RegExp) : boolean {
+    private peek(matcher: string | RegExp): boolean {
         return typeof matcher === "string" ?
             this.currentChar === matcher : matcher.test(this.currentChar);
     }
 
-    private match(matcher : string | RegExp) : boolean {
+    private match(matcher: string | RegExp): boolean {
         if (this.peek(matcher)) {
             this.shift();
             return true;
@@ -123,7 +123,7 @@ export default class AreaExtractor {
         return false;
     }
 
-    private peekTerm() : string {
+    private peekTerm(): string {
         let term  = "";
         const startPos = this.currentPos;
 
@@ -144,7 +144,7 @@ export default class AreaExtractor {
         return term;
     }
 
-    private nextTerm(matcher : string | RegExp = " ") : string {
+    private nextTerm(matcher: string | RegExp = " "): string {
         let term  = "";
 
         while (this.peek(" "))
@@ -163,7 +163,7 @@ export default class AreaExtractor {
         return term;
     }
 
-    private nextLocation() : string {
+    private nextLocation(): string {
         let term  = "";
 
         while (this.peek(" "))
@@ -184,7 +184,7 @@ export default class AreaExtractor {
         return term;
     }
 
-    private extractPartitionComponents() : { name: string; parts?: string[], islands?: Island[] } {
+    private extractPartitionComponents(): { name: string; parts?: string[], islands?: Island[] } {
         const name = this.nextLocation().trim();
 
         const parts = [];
@@ -223,12 +223,12 @@ export default class AreaExtractor {
         };
     }
 
-    private extractPartitioned(startingTerm : string) : LocationPart {
+    private extractPartitioned(startingTerm: string): LocationPart {
         // and the <southern> <portion> of <Catanduanes> (<Virac>)
         // and the <extreme northern> <region> of <Nueva Ecija> (<Carranglan, Lupao, Pantabangan>)
         let part = startingTerm;
 
-        let term : string;
+        let term: string;
         do {
             const currentTerm = this.nextTerm();
 
@@ -249,7 +249,7 @@ export default class AreaExtractor {
             this.nextTerm();
         }
 
-        let mainland : true | null;
+        let mainland: true | null;
         if (this.peekTerm() === "mainland") {
             this.nextTerm();
             mainland = true;
@@ -271,7 +271,7 @@ export default class AreaExtractor {
         };
     }
 
-    private extractRest(startingTerm : string) : LocationRest | LocationPart {
+    private extractRest(startingTerm: string): LocationRest | LocationPart {
         const startingPos = this.currentPos;
 
         // Strip "of" and "the"
@@ -304,7 +304,7 @@ export default class AreaExtractor {
         };
     }
 
-    private extractMainland() : LocationMainland {
+    private extractMainland(): LocationMainland {
         return {
             name: this.nextLocation().trim(),
             part: true,
@@ -314,7 +314,7 @@ export default class AreaExtractor {
         };
     }
 
-    private extractLocation(_ : string, startingPos : number) : LocationWhole | Island[] {
+    private extractLocation(_: string, startingPos: number): LocationWhole | Island[] {
         this.currentPos = startingPos;
 
         const name = this.nextLocation().trim();
@@ -367,9 +367,9 @@ export default class AreaExtractor {
         };
     }
 
-    private extractIslands() : Island[] {
-        const islands : Island[] = [];
-        const islandNames : string[] = [];
+    private extractIslands(): Island[] {
+        const islands: Island[] = [];
+        const islandNames: string[] = [];
 
         do {
             // Remove trailing commas and whitespace.

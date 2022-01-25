@@ -17,6 +17,7 @@
     },
     "rules": {
         "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/type-annotation-spacing": "warn",
         "indent": [
             "error",
             4,
