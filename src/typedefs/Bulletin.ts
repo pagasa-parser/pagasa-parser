@@ -1,7 +1,8 @@
-import {Landmass, Area} from "./Area";
+import {Area, Landmass} from "./Area";
 
 export interface Cyclone {
     name: string;
+    category?: string;
     internationalName?: string;
     prevailing? : boolean;
     center: {
