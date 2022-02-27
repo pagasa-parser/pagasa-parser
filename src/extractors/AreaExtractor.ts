@@ -70,7 +70,9 @@ export default class AreaExtractor {
             // "BabuyanIslands" to "Babuyan Islands"
             .replace(/(\S)Island(s?)/gi, "$1 Island$2")
             // "CityofTabuk" to "City of Tabuk"
-            .replace(/Cityof(.+)/gi, "City of $1");
+            .replace(/Cityof(.+)/gi, "City of $1")
+            // "Ilocos Norte Ilocos Norte" to "Ilocos Norte"
+            .replace(/\b(.+?)\s+\1\b/g, "$1");
 
         return areaString;
     }

@@ -335,6 +335,20 @@ describe("AreaExtractor tests", () => {
         expect((masbate as LocationWhole).includes?.objects?.includes("Mobo")).toBeTruthy();
     });
 
+    test("Duplication fix", () => {
+        const extractor = new AreaExtractor(
+            "Ilocos Norte\nIlocos Norte",
+        );
+        const areas = extractor.extractAreas();
+
+        expect(Array.isArray(areas)).toBeTruthy();
+        expect(areas.length).toBe(1);
+        expect(areas[0]).toMatchObject({
+            name: "Ilocos Norte",
+            part: false
+        });
+    });
+
 });
 
 describe("AreaExtractor error handling tests", () => {
