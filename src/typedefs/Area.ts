@@ -12,10 +12,6 @@ interface Location {
 
 export interface LocationWhole extends Location {
     part: boolean;
-    includes?: {
-        type: "whole",
-        objects: string[]
-    }
 }
 
 export interface LocationPart extends Location {
@@ -27,6 +23,9 @@ export interface LocationPart extends Location {
         part: string,
         objects: string[],
         mainland?: boolean
+    } | {
+        type: "whole",
+        objects: string[]
     }
 }
 
@@ -67,7 +66,7 @@ export interface Island extends Omit<Location, "islands"> {
 }
 
 export function areaIsWhole(area: Area): area is LocationWhole | Island {
-    return area.part === false;
+    return (area as any).includes == null;
 }
 
 export function areaHasIslands(area: Area): area is Area & { islands: Island[] } {

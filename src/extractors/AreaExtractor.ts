@@ -166,7 +166,7 @@ export default class AreaExtractor {
     }
 
     private nextLocation(): string {
-        let term  = "";
+        let term = "";
 
         while (this.peek(" "))
             this.shift();
@@ -179,7 +179,7 @@ export default class AreaExtractor {
         } while (
             !this.peek(/[(),]/g)
             && this.peekTerm() !== "including"
-            && this.areaString.substr(this.currentPos, 5) !== " and "
+            && this.areaString.substring(this.currentPos, this.currentPos + 5) !== " and "
             && this.currentPos < this.areaString.length
         );
 
@@ -193,7 +193,7 @@ export default class AreaExtractor {
         if (this.match("(")) {
             // Balanced parenthesis check
             let terminating = false;
-            for (const letter of this.areaString.substr(this.currentPos)) {
+            for (const letter of this.areaString.substring(this.currentPos)) {
                 if (letter === ")") {
                     terminating = true;
                     break;
@@ -316,7 +316,7 @@ export default class AreaExtractor {
         };
     }
 
-    private extractLocation(_: string, startingPos: number): LocationWhole | Island[] {
+    private extractLocation(_: string, startingPos: number): LocationWhole | LocationPart | Island[] {
         this.currentPos = startingPos;
 
         const name = this.nextLocation().trim();
@@ -379,7 +379,12 @@ export default class AreaExtractor {
 
             if (/Islands?$/.test(islandName)) {
                 break;
-            } else if (islandName !== "and") {
+            } else if (this.subroutines.directional.matcher(islandName)) {
+                // Part of island
+                const location = this.extractPartitioned(islandName);
+                islandNames.push(location.name);
+                // This discards included objects.
+            } else if (islandName !== "and" && islandName !== "the") {
                 islandNames.push(islandName);
             }
         } while (!this.peek(",") && this.currentChar !== null);

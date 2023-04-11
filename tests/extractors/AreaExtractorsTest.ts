@@ -1,5 +1,5 @@
 import AreaExtractor from "../../src/extractors/AreaExtractor";
-import {LocationPart, LocationWhole} from "../../src/typedefs/Area";
+import {LocationPart} from "../../src/typedefs/Area";
 
 describe("AreaExtractor tests", () => {
 
@@ -353,9 +353,9 @@ describe("AreaExtractor tests", () => {
 
         const masbate = areas.find(v => v.name === "Masbate");
         expect(masbate).not.toBeUndefined();
-        expect((masbate as LocationWhole).includes?.objects?.includes("Esperanza")).toBeTruthy();
-        expect((masbate as LocationWhole).includes?.objects?.includes("Baleno")).toBeTruthy();
-        expect((masbate as LocationWhole).includes?.objects?.includes("Mobo")).toBeTruthy();
+        expect((masbate as LocationPart).includes?.objects?.includes("Esperanza")).toBeTruthy();
+        expect((masbate as LocationPart).includes?.objects?.includes("Baleno")).toBeTruthy();
+        expect((masbate as LocationPart).includes?.objects?.includes("Mobo")).toBeTruthy();
     });
 
     test("Duplication fix", () => {
