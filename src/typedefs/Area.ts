@@ -34,6 +34,10 @@ export function areaIsPart(area: Area): area is LocationPart {
     return (area as any).includes?.type === "section";
 }
 
+export function areaHasIncludes(area: Area): area is Area & { includes: { objects: string[] } } {
+    return (area as any).includes?.objects?.length > 0;
+}
+
 export interface LocationRest extends Location {
     part: true;
     includes: {
