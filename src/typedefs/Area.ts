@@ -12,6 +12,7 @@ interface Location {
 
 export interface LocationWhole extends Location {
     part: boolean;
+    includes?: never;
 }
 
 export interface LocationPart extends Location {
