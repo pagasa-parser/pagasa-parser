@@ -353,7 +353,7 @@ export default class AreaExtractor {
             const { name, parts, islands } = this.extractPartitionComponents();
             return {
                 name: name,
-                part: false,
+                part: true,
                 includes: {
                     type: "whole",
                     objects: parts

@@ -11,7 +11,7 @@ interface Location {
 }
 
 export interface LocationWhole extends Location {
-    part: false;
+    part: boolean;
     includes?: {
         type: "whole",
         objects: string[]

@@ -248,6 +248,29 @@ describe("AreaExtractor tests", () => {
         });
     });
 
+    test("Partitioned (no leading text)", () => {
+        const extractor = new AreaExtractor(
+            "Bulacan (Norzagaray, Doña Remedios Trinidad, San Miguel, San Ildefonso)",
+        );
+        const areas = extractor.extractAreas();
+
+        expect(Array.isArray(areas)).toBeTruthy();
+        expect(areas.length).toBe(1);
+        expect(areas[0]).toMatchObject({
+            name: "Bulacan",
+            part: true,
+            includes: {
+                type: "whole",
+                objects: [
+                    "Norzagaray",
+                    "Doña Remedios Trinidad",
+                    "San Miguel",
+                    "San Ildefonso"
+                ]
+            }
+        });
+    });
+
     test("Islands", () => {
         const extractor = new AreaExtractor(
             "Burias and Ticao Islands",
