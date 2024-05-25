@@ -66,7 +66,9 @@ export default class AreaExtractor {
             // "Babuyan Is." to "Babuyan Island"
             .replace(/\s*Is\./g, "Island")
             // "theeasternportionofBabuyanIslands" to "the eastern portion of BabuyanIslands"
-            .replace(/the(\S+?)(portion|region)of(\S+)/gi, "the $1 $2 of $3")
+            .replace(/the(\S+?)(portions?|regions?)of(\S+)/gi, "the $1 $2 of $3")
+            // "portionsofBabuyanIslands" to "portions of BabuyanIslands"
+            .replace(/(portions|regions)of(\S+)/gi, "$1 of $2")
             // "BabuyanIslands" to "Babuyan Islands"
             .replace(/(\S)Island(s?)/gi, "$1 Island$2")
             // "CityofTabuk" to "City of Tabuk"
@@ -238,7 +240,10 @@ export default class AreaExtractor {
                 throw new ParsingError("Unexpected end of string", currentTerm);
 
             const stringMatch =
-                stringSimilarity.findBestMatch(currentTerm, ["portion", "region"]);
+                stringSimilarity.findBestMatch(currentTerm, [
+                    "portion", "portions",
+                    "region", "regions"
+                ]);
             if (stringMatch.bestMatch.rating >= 0.5) {
                 term = stringMatch.bestMatch.target;
             } else {
