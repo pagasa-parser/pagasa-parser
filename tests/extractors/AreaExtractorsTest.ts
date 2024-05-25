@@ -374,6 +374,68 @@ describe("AreaExtractor tests", () => {
 
 });
 
+describe("AreaExtractor fixing tests", () => {
+
+    test("Concatenated (all)", () => {
+        const extractor = new AreaExtractor(
+            "northernportionofBiliran",
+        );
+        const areas = extractor.extractAreas();
+
+        expect(Array.isArray(areas)).toBeTruthy();
+        expect(areas.length).toBe(1);
+        expect(areas[0]).toMatchObject({
+            name: "Biliran",
+            part: true,
+            includes: {
+                type: "section",
+                term: "portion",
+                part: "northern"
+            }
+        });
+    });
+
+    test("Concatenated (term and province)", () => {
+        const extractor = new AreaExtractor(
+            "northern portionofBiliran",
+        );
+        const areas = extractor.extractAreas();
+
+        expect(Array.isArray(areas)).toBeTruthy();
+        expect(areas.length).toBe(1);
+        expect(areas[0]).toMatchObject({
+            name: "Biliran",
+            part: true,
+            includes: {
+                type: "section",
+                term: "portion",
+                part: "northern"
+            }
+        });
+    });
+
+    test("Concatenated (part and term)", () => {
+        const extractor = new AreaExtractor(
+            "northernportion of Biliran",
+        );
+        const areas = extractor.extractAreas();
+
+        expect(Array.isArray(areas)).toBeTruthy();
+        expect(areas.length).toBe(1);
+        expect(areas[0]).toMatchObject({
+            name: "Biliran",
+            part: true,
+            includes: {
+                type: "section",
+                term: "portion",
+                part: "northern"
+            }
+        });
+    });
+
+});
+
+
 describe("AreaExtractor error handling tests", () => {
 
     test("Partitioned (failed typo fix)", () => {

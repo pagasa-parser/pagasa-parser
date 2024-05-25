@@ -65,8 +65,8 @@ export default class AreaExtractor {
             .replace(/([\r\n]|\\[rn])+/g, " ")
             // "Babuyan Is." to "Babuyan Island"
             .replace(/\s*Is\./g, "Island")
-            // "theeasternportionofBabuyanIslands" to "the eastern portion of BabuyanIslands"
-            .replace(/the(\S+?)(portions?|regions?)of(\S+)/gi, "the $1 $2 of $3")
+            // "easternportionofBabuyanIslands" to "eastern portion of BabuyanIslands"
+            .replace(/(\S+?)\s?(portions?|regions?)\s?of\s?(\S+)/gi, "$1 $2 of $3")
             // "portionsofBabuyanIslands" to "portions of BabuyanIslands"
             .replace(/(portions|regions)of(\S+)/gi, "$1 of $2")
             // "BabuyanIslands" to "Babuyan Islands"
