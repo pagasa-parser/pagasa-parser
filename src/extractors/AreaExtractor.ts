@@ -71,6 +71,8 @@ export default class AreaExtractor {
             .replace(/(portions|regions)of(\S+)/gi, "$1 of $2")
             // "BabuyanIslands" to "Babuyan Islands"
             .replace(/(\S)Island(s?)/gi, "$1 Island$2")
+            // "Dinagat Island" to "Dinagat Islands"
+            .replace(/Dinagat\s+Island(?!s)/gi, "Dinagat Islands")
             // "CityofTabuk" to "City of Tabuk"
             .replace(/Cityof(.+)/gi, "City of $1")
             // "Ilocos Norte Ilocos Norte" to "Ilocos Norte"
