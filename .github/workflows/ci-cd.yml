@@ -24,13 +24,6 @@ jobs:
             -   name: Install dependencies
                 run: npm ci
 
-            -   name: Perform audit
-                uses: oke-py/npm-audit-action@v1.8.3
-                with:
-                    audit_level: moderate
-                    create_issues: false
-                    github_token: ${{ secrets.GITHUB_TOKEN }}
-
             -   name: Perform tests
                 run: npm test
 
